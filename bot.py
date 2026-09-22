@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 import requests
 # غیرفعال کردن هشدارهای SSL برای تضمین کارکرد روی تمامی سرورها
 from urllib3.exceptions import InsecureRequestWarning
@@ -13,15 +14,16 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# توکن ربات تلگرام شما
-TOKEN = "8903097399:AAG0CpaLRx9G_5ynP0QjsN8dmVIxC3YwrQI"
+# توکن ربات تلگرام شما (تنظیم شود از متغیر محیطی BOT_TOKEN)
+TOKEN = os.environ.get("BOT_TOKEN")
 
-# لیست کلیدهای Serper شما با ساختار چرخشی و پشتیبان هوشمند
+# لیست کلیدهای Serper شما (تنظیم شود از متغیرهای محیطی SERPER_KEY_1, SERPER_KEY_2, SERPER_KEY_3)
 SERPER_KEYS = [
-    "d81c9714877640c38873df19b68e15b5cf684f93",
-    "be1ff9212ccb724f8c2ef6480a685db8c1660811",
-    "bc47ac50500fd03138cd35af124536d0d359af52"
+    os.environ.get("SERPER_KEY_1"),
+    os.environ.get("SERPER_KEY_2"),
+    os.environ.get("SERPER_KEY_3")
 ]
+SERPER_KEYS = [k for k in SERPER_KEYS if k]  # حذف مقادیر None
 
 
 def fetch_google_images(query: str) -> tuple[list, str]:
